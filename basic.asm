@@ -1,0 +1,236 @@
+
+.syntax unified
+
+.section	.interrupt_vector
+.align	4
+
+.long	__stack_top
+.long	reset_handler
+.long	nmi_handler
+.long	hardfault_handler
+.long	0
+.long	0
+.long	0
+.long	0
+.long	0
+.long	0
+.long	0
+.long	0 /* svcall_handler */
+.long	0
+.long	0
+.long	0 /* pendingsv */
+.long	0 /* systick_handler */
+.long	0 /* irq0_handler */
+.long	0 /* irq1_handler */
+.long	0 /* irq2_handler */
+.long	0 /* irq3_handler */
+.long	0 /* irq4_handler */
+.long	0 /* irq5_handler */
+.long	0 /* irq6_handler */
+.long	0 /* irq7_handler */
+.long	0 /* irq8_handler */
+.long	0 /* irq9_handler */
+.long	0 /* irq10_handler */
+.long	0 /* irq11_handler */
+.long	0 /* irq12_handler */
+.long	0 /* irq13_handler */
+.long	0 /* irq14_handler */
+.long	0 /* irq15_handler */
+.long	0 /* irq16_handler */
+.long	0 /* irq17_handler */
+.long	0 /* irq18_handler */
+.long	0 /* irq19_handler */
+.long	0 /* irq20_handler */
+.long	0 /* irq21_handler */
+.long	0 /* irq22_handler */
+.long	0 /* irq23_handler */
+.long	0 /* irq24_handler */
+.long	0 /* irq25_handler */
+.long	0 /* irq26_handler */
+.long	0 /* irq27_handler */
+
+.text
+.align 2
+.thumb
+
+reset_handler:
+.func reset_handler, reset_handler
+.type reset_handler, %function
+	mov	r0,	#1
+	add	r0,	#666
+	ldr	r1,	=var_basic_int
+	str	r0,	[r1]
+
+init_gpio_pin:
+	mov	r1,	#(1 << 13)
+	ldr	r2,	=port_dir_set
+	str	r1,	[r2]
+
+set_led_on:
+	/* ldr	r2,	=port_out_set */
+	ldr	r2,	=port_out_clear
+	str	r1,	[r2]
+
+	mov	r3,	#0
+wait_one_sec_on:
+	add	r3,	#1
+	cmp	r3,	#(16 << 20)	/* 47 MHz, 3cycl/inst */
+	blt	wait_one_sec_on
+
+set_led_off:
+	ldr	r2,	=port_out_clear
+	str	r1,	[r2]
+
+	mov	r3,	#0
+wait_one_sec_off:
+	add	r3,	#1
+	cmp	r3,	#(16 << 20)	/* 47 MHz, 3cycl/inst */
+	blt	wait_one_sec_off
+
+	b	set_led_on
+.endfunc
+
+nmi_handler:
+.func nmi_handler, nmi_handler
+.type nmi_handler, %function
+	mov	r0,	#1
+.endfunc
+
+hardfault_handler:
+.func hardfault_handler, hardfault_handler
+.type hardfault_handler, %function
+	mov	r0,	#1
+.endfunc
+
+text_variables:
+
+.data
+.align 4
+var_basic_int:
+.word	666
+var_basic_str:
+.asciz "\hello world"
+
+.section	.port_table
+port_dir:
+.long	0
+port_dir_clear:
+.long	0
+port_dir_set:
+.long	0
+port_dir_toggle:
+.long	0
+port_out:
+.long	0
+port_out_clear:
+.long	0
+port_out_set:
+.long	0
+port_out_toggle:
+.long	0
+port_in:
+.long	0
+port_ctrl:
+.long	0
+port_wrconfig:
+.long	0
+.long	0	/* reserved */
+port_pmux0:
+.byte	0
+port_pmux1:
+.byte	0
+port_pmux2:
+.byte	0
+port_pmux3:
+.byte	0
+port_pmux4:
+.byte	0
+port_pmux5:
+.byte	0
+port_pmux6:
+.byte	0
+port_pmux7:
+.byte	0
+port_pmux8:
+.byte	0
+port_pmux9:
+.byte	0
+port_pmux10:
+.byte	0
+port_pmux11:
+.byte	0
+port_pmux12:
+.byte	0
+port_pmux13:
+.byte	0
+port_pmux14:
+.byte	0
+port_pmux15:
+.byte	0
+port_pincfg0:
+.byte	0
+port_pincfg1:
+.byte	0
+port_pincfg2:
+.byte	0
+port_pincfg3:
+.byte	0
+port_pincfg4:
+.byte	0
+port_pincfg5:
+.byte	0
+port_pincfg6:
+.byte	0
+port_pincfg7:
+.byte	0
+port_pincfg8:
+.byte	0
+port_pincfg9:
+.byte	0
+port_pincfg10:
+.byte	0
+port_pincfg11:
+.byte	0
+port_pincfg12:
+.byte	0
+port_pincfg13:
+.byte	0
+port_pincfg14:
+.byte	0
+port_pincfg15:
+.byte	0
+port_pincfg16:
+.byte	0
+port_pincfg17:
+.byte	0
+port_pincfg18:
+.byte	0
+port_pincfg19:
+.byte	0
+port_pincfg20:
+.byte	0
+port_pincfg21:
+.byte	0
+port_pincfg22:
+.byte	0
+port_pincfg23:
+.byte	0
+port_pincfg24:
+.byte	0
+port_pincfg25:
+.byte	0
+port_pincfg26:
+.byte	0
+port_pincfg27:
+.byte	0
+port_pincfg28:
+.byte	0
+port_pincfg29:
+.byte	0
+port_pincfg30:
+.byte	0
+port_pincfg31:
+.byte	0
+
+__stack_top:
+	
