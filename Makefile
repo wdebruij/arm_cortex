@@ -11,7 +11,7 @@ CFLAGS=-O0 -mthumb -mcpu=cortex-m0plus -nostartfiles
 TSTAMP= `/bin/date "+%Y%m%d-%H%M%S"`
 
 %.o: %.asm
-	$(AS) -mthumb -o $@ $?
+	$(AS) -mcpu=cortex-m0plus -mthumb -o $@ $?
 
 %.elf: %.o
 	$(LD) -T cortex_m0plus.ld --gc-sections $? -o $@
@@ -35,7 +35,7 @@ TSTAMP= `/bin/date "+%Y%m%d-%H%M%S"`
 	$(NM) -n $?
 
 %.upload: %.bin
-	sudo ./bossac -r image-backup-$(TSTAMP).bin
+	# sudo ./bossac -r image-backup-$(TSTAMP).bin
 	sudo ./bossac -o 0x2000 -e -w -v -R $<
 
 .PHONY: all clean distclean

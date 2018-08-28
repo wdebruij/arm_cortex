@@ -7,13 +7,13 @@ MEMORY {
 	DEVC(rw)	: ORIGIN = 0x42000000, LENGTH = 0x1C00
 }
 
+ENTRY(reset_handler)
+
 SECTIONS {
 	. = ORIGIN(FLASH);
-	.interrupt_vector : {
+	.text . : {
 		. = ALIGN(4);
 		KEEP(*(.interrupt_vector))
-	}
-	.text . : {
 		. = ALIGN(2);
 		*(.text)
 	}
