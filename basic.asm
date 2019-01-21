@@ -51,7 +51,7 @@
 .word	0 /* irq27_handler */
 
 .text
-.align 2
+.align 4
 
 .global reset_handler
 
@@ -69,7 +69,7 @@ set_led_on:
 	ldr	r2,	=port_out_set
 	str	r1,	[r2]
 
-	ldr	r3,	=(1 << 24)
+	ldr	r3,	=(1 << 18)
 wait_one_sec_on:
 	subs	r3,	#1
 	bne	wait_one_sec_on
@@ -78,7 +78,7 @@ set_led_off:
 	ldr	r2,	=port_out_clear
 	str	r1,	[r2]
 
-	ldr	r3,	=(1 << 27)
+	ldr	r3,	=(1 << 18)
 wait_one_sec_off:
 	subs	r3,	#1
 	bne	wait_one_sec_off
